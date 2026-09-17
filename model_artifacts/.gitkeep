@@ -1,0 +1,8 @@
+Model artifacts are stored in AWS S3, not in this repo.
+
+Files in S3 bucket (darshan-ids-project):
+- models/rf_model.pkl       (16MB - trained Random Forest)
+- models/scaler.pkl         (feature StandardScaler)
+- models/label_encoder.pkl  (class LabelEncoder)
+
+To regenerate: run notebooks/cloudguard_full_pipeline.ipynb

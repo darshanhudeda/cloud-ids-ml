@@ -1,0 +1,33 @@
+# Model files (stored in S3, too large for GitHub)
+*.pkl
+*.joblib
+lambda_deployment.zip
+lambda_layer.zip
+lambda_slim.zip
+package/
+layer/
+slim_package/
+
+# Dataset files (download from Kaggle)
+*.txt
+*.arff
+*.csv
+*.zip
+!columns.txt
+
+# AWS credentials - NEVER commit these
+*.json
+kaggle.json
+aws_credentials.csv
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
