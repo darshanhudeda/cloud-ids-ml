@@ -8,7 +8,7 @@ import numpy as np
 from datetime import datetime
 from collections import Counter
 
-API_URL = st.secrets.get("API_URL", "your-api-url-here")
+API_URL = st.secrets.get("API_URL", "https://hcgw43e08f.execute-api.us-east-1.amazonaws.com/default/ids-inference")
 
 traffic_records = {
     "normal":  [0,1,2,0,491,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,1,0,0,150,25,0.17,0.03,0.17,0,0.05,0,0,0],
