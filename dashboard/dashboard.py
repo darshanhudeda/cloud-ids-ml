@@ -503,16 +503,17 @@ with mid:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    if st.session_state.attack_counts:
-            # Feature explainer panel
-    if st.session_state.last_result and 'top_features' in st.session_state.last_result:
-        st.markdown("<br>", unsafe_allow_html=True)
+    # ── FEATURE EXPLAINER ─────────────────────────────────────
+    if (st.session_state.last_result and
+            'top_features' in st.session_state.last_result and
+            'error' not in st.session_state.last_result):
+
         st.markdown("<div class='section-header'>▸ Why This Was Flagged</div>",
                     unsafe_allow_html=True)
 
         features = st.session_state.last_result['top_features']
-        pred = st.session_state.last_result.get('prediction', 'normal')
-        color = COLORS.get(pred, '#4a9eff')
+        pred     = st.session_state.last_result.get('prediction', 'normal')
+        color    = COLORS.get(pred, '#4a9eff')
 
         fig3, ax3 = plt.subplots(figsize=(5, 2.8))
         fig3.patch.set_facecolor('#0a0f1e')
@@ -520,21 +521,21 @@ with mid:
 
         names  = [f['feature'].replace('dst_host_', 'dh_')
                                .replace('srv_', 's_') for f in features]
-        values = [f['importance'] for f in features]
-        raw    = [f['raw_value'] for f in features]
+        vals   = [f['importance'] for f in features]
+        raws   = [f['raw_value'] for f in features]
 
-        bars = ax3.barh(names[::-1], values[::-1],
-                       color=color, height=0.5,
-                       edgecolor='none', alpha=0.85)
+        bars3 = ax3.barh(names[::-1], vals[::-1],
+                         color=color, height=0.5,
+                         edgecolor='none', alpha=0.85)
 
-        for bar, val, rv in zip(bars, values[::-1], raw[::-1]):
+        for bar, v, rv in zip(bars3, vals[::-1], raws[::-1]):
             ax3.text(bar.get_width() + 0.01,
-                    bar.get_y() + bar.get_height()/2,
-                    f'{val:.3f}  (val={rv})',
-                    va='center', color='#888',
-                    fontsize=8, fontfamily='monospace')
+                     bar.get_y() + bar.get_height()/2,
+                     f'{v:.3f}  (val={rv})',
+                     va='center', color='#666',
+                     fontsize=7.5, fontfamily='monospace')
 
-        ax3.set_xlim(0, 1.0)
+        ax3.set_xlim(0, 1.1)
         ax3.tick_params(colors='#555', labelsize=8)
         ax3.spines['top'].set_visible(False)
         ax3.spines['right'].set_visible(False)
@@ -548,11 +549,15 @@ with mid:
             label.set_color('#555')
         ax3.set_xlabel('Importance Score', color='#444', fontsize=8)
         ax3.set_title(f'Top features triggering {pred} detection',
-                     color='#555', fontsize=8,
-                     fontfamily='monospace', pad=8)
+                      color='#444', fontsize=8,
+                      fontfamily='monospace', pad=8)
         plt.tight_layout(pad=0.5)
         st.pyplot(fig3, use_container_width=True)
         plt.close()
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    if st.session_state.attack_counts:
         st.markdown("<div class='section-header'>▸ Attack Distribution</div>",
                     unsafe_allow_html=True)
 
